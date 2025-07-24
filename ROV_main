@@ -1,0 +1,48 @@
+import RPi.GPIO as GPIO
+import time
+import curses   
+import motor_control
+
+def main(stdscr):
+    stdscr.nodelay(True)
+    time_released = 0.0 
+
+    while True:
+        key = stdscr.getch()
+        if key == ord('w'):
+            # stdscr.addstr("Forward")
+            motor_control.lat_motors(speed = 75)
+            if time.time() - time_released < 0.5:
+                time.sleep(0.5)
+        elif key == ord('s'):
+            # stdscr.addstr("Backward\n")
+            motor_control.lat_motors(forward=False, speed = 75)
+            if time.time() - time_released < 0.5:
+                time.sleep(0.5)
+        elif key == ord('q'):
+            break
+        else:
+            motor_control.stop_lat_motors()
+            time_released = time.time()
+        stdscr.refresh()
+        time.sleep(0.05)
+
+curses.wrapper(main)
+
+try: 
+    while True:    
+        # print("Motor forward")
+        # lat_motors(forward=True, speed=10)
+        # time.sleep(3)
+
+        # print("Motor backward")
+        # lat_motors(forward=False, speed=10)
+        # time.sleep(3)
+
+        # print("Stopping motor")
+        # stop_lat_motors()
+        time.sleep(3)
+
+finally:
+    pwm_left.stop()
+    GPIO.cleanup()

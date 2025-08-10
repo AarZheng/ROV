@@ -3,9 +3,9 @@ import time
 import curses   
 
 # GPIO pin mapping (change as needed)
-LEFT_IN1 = 17   # GPIO pin connected to LEFT_IN1
+LEFT_IN1 = 4   # GPIO pin connected to LEFT_IN1
 LEFT_IN2 = 27   # GPIO pin connected to LEFT_IN2
-LEFT_EN  = 22   # GPIO pin connected to LEFT_EN (PWM)
+LEFT_EN  = 18   # GPIO pin connected to LEFT_EN (PWM)
 
 RIGHT_IN1 = 23
 RIGHT_IN2 = 24
@@ -55,15 +55,15 @@ def drive_lat(forward=True, speed=50):
 
 def turn(clockwise=True, speed = 50):
     if clockwise:
-        GPIO.output(LEFT_IN1, GPIO.HIGH)
-        GPIO.output(LEFT_IN2, GPIO.LOW)
-        GPIO.output(RIGHT_IN1, GPIO.LOW)
-        GPIO.output(RIGHT_IN2, GPIO.HIGH)
-    else:
         GPIO.output(LEFT_IN1, GPIO.LOW)
         GPIO.output(LEFT_IN2, GPIO.HIGH)
         GPIO.output(RIGHT_IN1, GPIO.HIGH)
         GPIO.output(RIGHT_IN2, GPIO.LOW)
+    else:
+        GPIO.output(LEFT_IN1, GPIO.HIGH)
+        GPIO.output(LEFT_IN2, GPIO.LOW)
+        GPIO.output(RIGHT_IN1, GPIO.LOW)
+        GPIO.output(RIGHT_IN2, GPIO.HIGH)
     pwm_left.ChangeDutyCycle(speed)
     pwm_right.ChangeDutyCycle(speed)
 
@@ -79,11 +79,11 @@ def stop_drive_lat():
 
 def drive_vert(up = True, speed = 50):
     if up:
-        GPIO.output(VERT_IN1, GPIO.LOW)
-        GPIO.output(VERT_IN2, GPIO.HIGH)
-    else:
         GPIO.output(VERT_IN1, GPIO.HIGH)
         GPIO.output(VERT_IN2, GPIO.LOW)
+    else:
+        GPIO.output(VERT_IN1, GPIO.LOW)
+        GPIO.output(VERT_IN2, GPIO.HIGH)
     pwm_vert.ChangeDutyCycle(speed)
 
 def stop_drive_vert():

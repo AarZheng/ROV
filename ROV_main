@@ -17,17 +17,17 @@ def main(stdscr):
                 time.sleep(0.5)
         elif key == ord('a'):
             stdscr.addstr(1, 0, "Clockwise     ")
-            drive.turn(speed = 75)
+            drive.turn(speed = 90)
             if time.time() - key_released_lat < 0.5:
                 time.sleep(0.5)
         elif key == ord('d'):
             stdscr.addstr(1, 0, "Counterclock     ")
-            drive.turn(clockwise = False, speed = 75)
+            drive.turn(clockwise = False, speed = 90)
             if time.time() - key_released_lat < 0.5:
                 time.sleep(0.5)
         elif key == ord('s'):
             stdscr.addstr(1, 0, "Backward     ")
-            drive.drive_lat(forward=False, speed = 75)
+            drive.drive_lat(forward=False, speed = 90)
             if time.time() - key_released_lat < 0.5:
                 time.sleep(0.5)
         elif key == ord('q'):
@@ -38,12 +38,12 @@ def main(stdscr):
 
         if key == ord('j'):
             stdscr.addstr(2, 0, "Rising")
-            drive.drive_vert(speed = 75)
+            drive.drive_vert(speed = 90)
             if time.time() - key_released_vert < 0.5:
                 time.sleep(0.5)
         elif key == ord('k'):
             stdscr.addstr(2, 0, "Sinking")
-            drive.drive_vert(up = False, speed = 75)
+            drive.drive_vert(up = False, speed = 90)
             if time.time() - key_released_vert < 0.5:
                 time.sleep(0.5)
         else:

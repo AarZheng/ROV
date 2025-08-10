@@ -1,31 +1,57 @@
 import RPi.GPIO as GPIO
 import time
 import curses   
-import motor_control
+import drive
 
 def main(stdscr):
     stdscr.nodelay(True)
-    time_released = 0.0 
+    key_released_lat = 0.0
+    key_released_vert = 0.0 
 
     while True:
         key = stdscr.getch()
         if key == ord('w'):
-            # stdscr.addstr("Forward")
-            motor_control.lat_motors(speed = 75)
-            if time.time() - time_released < 0.5:
+            stdscr.addstr(1, 0, "Forward     ")
+            drive.drive_lat(speed = 90)
+            if time.time() - key_released_lat < 0.5: # Avoid initial motor jolt by simulating repeated keypress
+                time.sleep(0.5)
+        elif key == ord('a'):
+            stdscr.addstr(1, 0, "Clockwise     ")
+            drive.turn(speed = 75)
+            if time.time() - key_released_lat < 0.5:
+                time.sleep(0.5)
+        elif key == ord('d'):
+            stdscr.addstr(1, 0, "Counterclock     ")
+            drive.turn(clockwise = False, speed = 75)
+            if time.time() - key_released_lat < 0.5:
                 time.sleep(0.5)
         elif key == ord('s'):
-            # stdscr.addstr("Backward\n")
-            motor_control.lat_motors(forward=False, speed = 75)
-            if time.time() - time_released < 0.5:
+            stdscr.addstr(1, 0, "Backward     ")
+            drive.drive_lat(forward=False, speed = 75)
+            if time.time() - key_released_lat < 0.5:
                 time.sleep(0.5)
         elif key == ord('q'):
             break
         else:
-            motor_control.stop_lat_motors()
-            time_released = time.time()
+            drive.stop_drive_lat()
+            key_released_lat = time.time()
+
+        if key == ord('j'):
+            stdscr.addstr(2, 0, "Rising")
+            drive.drive_vert(speed = 75)
+            if time.time() - key_released_vert < 0.5:
+                time.sleep(0.5)
+        elif key == ord('k'):
+            stdscr.addstr(2, 0, "Sinking")
+            drive.drive_vert(up = False, speed = 75)
+            if time.time() - key_released_vert < 0.5:
+                time.sleep(0.5)
+        else:
+            drive.stop_drive_vert()
+            key_released_vert = time.time()
+        
         stdscr.refresh()
-        time.sleep(0.05)
+        time.sleep(0.03)
 
 curses.wrapper(main)
 
